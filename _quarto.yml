@@ -1,5 +1,18 @@
 project:
+  type: book
   output-dir: _output
+
+book:
+  title: "Bitcoin Onder De Loep"
+  author: "Yann Pritzker"
+  search: true
+  repo-url: https://github.com/konsensusnetwork/IB_NL/
+  repo-actions: [edit]
+  downloads: [pdf, epub]
+  sharing: [twitter, facebook]
+  chapters:
+    - index.qmd
+
 
 toc: true
 number-sections: true
@@ -7,9 +20,11 @@ bibliography: ib.bib
   
 format:
   html:
+    theme: cosmo
     css: styles.css
     html-math-method: katex
   pdf:
+    keep-tex: true
     documentclass: report
     margin-left: 30mm
     margin-right: 30mm

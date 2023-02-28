@@ -2,11 +2,15 @@
 Converting from Latex to markdown
 
 ```bash
-pandoc -s main.tex -o main.text --bibliography ib.bib --citeproc --toc
+pandoc -s index.tex -o index.text --bibliography ib.bib --citeproc
 ```
 
 Turn into .qmd file
 ```bash
-mkdir markdown
-cp main.text main.qmd
+cp index.text index.qmd
 ```
+
+Converting all chapters in subdirectory
+find ./ -iname "*.tex" -type f -exec sh -c 'pandoc "${0}" -o "./output/$(basename ${0%.tex}.md)"' {} \;
+
+find ./ -iname "*.tex" -type f -exec sh -c 'pandoc "${0}" citeproc --bibliography ib.bib -o "./output/$(basename ${0%.tex}.md)"' {} \;
