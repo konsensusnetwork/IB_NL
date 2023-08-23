@@ -1,6 +1,5 @@
 % universal settings
-\documentclass[smalldemyvopaper,11pt,twoside,onecolumn,openright,extrafontsizes]{memoir}
-\usepackage[utf8]{inputenc}
+\documentclass[smalldemyvopaper,10pt,twoside,onecolumn,openright,extrafontsizes]{memoir}
 \usepackage[T1]{fontenc}
 \usepackage[osf]{Alegreya,AlegreyaSans}
 \usepackage{microtype} % for micro-typographical adjustments
@@ -84,29 +83,64 @@
 
 % PHYSICAL DOCUMENT SETUP
 % media settings
-\setstocksize{8.5in}{5.5in}
-\settrimmedsize{8.5in}{5.5in}{*}
+\setstocksize{216mm}{140mm}
+\settrimmedsize{216mm}{140mm}{*}
 \setbinding{5mm}
 \setlrmarginsandblock{15mm}{15mm}{*}
-\setulmarginsandblock{23mm}{17mm}{*}
+\setulmarginsandblock{15mm}{23mm}{*}
 
 % defining the title and the author
 \pagestyle{plain}
-\newcommand{\subtitle}{De technologie achter het eerste werkelijk schaarse en gedecentraliseerde geld}
+\newcommand{\subtitle}{De Technologie Achter Digitaal Geld, Eenvoudig Uitgelegd}
 \newcommand{\translator}{Rutger Damink \& Dan Xi}
 \newcommand{\press}{Konsensus Network}
-\newcommand{\ISBN}{978-9916-9595-2-7}
-\title{Bitcoin onder de loep}
+\newcommand{\ISBN}{978-9916-723-32-6}
+\title{Bitcoin Ontdekken}
 \author{Yan Pritzker}
 
+% typographical settings for the body text
+%\setlength{\parskip}{0.75em}
+\linespread{1.20}
+\setlength{\parindent}{2em}
 
+\renewcommand{\footnotesize}{\small}
+
+
+% splitting
+%\pretolerance=9500
+\tolerance=9000
+%\emergencystretch=1pt
 
 %stop footnotes from running to next page
-\interfootnotelinepenalty=10000
+%\interfootnotelinepenalty=10000
+
+% HEADER AND FOOTER MANIPULATION
+  % for normal pages
+  \nouppercaseheads
+  \headsep = 0.2in
+  \makepagestyle{mystyle} 
+  \setlength{\headwidth}{\dimexpr\textwidth+\marginparsep+\marginparwidth\relax}
+  \makerunningwidth{mystyle}{\headwidth}
+  %\makeevenhead{mystyle}{}{\textsf{\scriptsize A L L E S \space G E D E E L D \space D O O R \space {\footnotesize 2 1} \space M I L J O E N}}{}
+  \makeoddhead{mystyle}{}{\textsf{\footnotesize\leftmark}}{}
+  \makeevenfoot{mystyle}{}{\textsf{\footnotesize\thepage}}{}
+  \makeoddfoot{mystyle}{}{\textsf{\footnotesize\thepage}}{}
+  \makeatletter
+  \makepsmarks{mystyle}{%
+  \createmark{chapter}{left}{nonumber}{\@chapapp\ }{.\ }}
+  \makeatother
+  % for pages where chapters begin
+  \makepagestyle{plain}
+  \makerunningwidth{plain}{\headwidth}
+  \makeevenfoot{plain}{}{}{}
+  \makeoddfoot{plain}{}{\textsf{\footnotesize\thepage}}{}
+  \pagestyle{mystyle}
+% END HEADER AND FOOTER MANIPULATION
 
 % formatting titles
 \titleformat{\chapter}[display]{\normalfont\scshape\huge}{}{0pt}{\centering}[\vspace{34pt}]
-\titleformat{\section}[block]{\large\bfseries\filright}{}{0em}{}
+\titleformat{\section}[block]{\normalfont\Large\scshape}{}{0pt}{}[]
+\titlespacing*{\section}{0pt}{2em}{1.5em}
 
 % custom title page
 \thispagestyle{empty}
@@ -117,30 +151,40 @@
   \begin{center}
   \vspace*{\drop}
   \rule{0.7\textwidth}{0in}\par
-  {\huge\textsc\thetitle\par}
+  {\HUGE\textsc\thetitle\par}
+  {\vspace{2em}}
   {\Large\textsc\subtitle\par}
+  {\vspace{1em}}
   \rule{\textwidth}{0.3mm}\par
+  {\vspace{1em}}
   {\large\textit\theauthor \par}
   \vspace{2mm}
   \vfill
-  {Gepubliceerd door \par}
+  {\includegraphics[width=0.5cm]{images/free starfish.pdf}\par}
+  {\vspace{1em}}
   {\large\begin{scshape}\press \end{scshape}\par}
-  {\includegraphics[width=0.5cm]{images/free starfish.pdf}}
   \end{center}
 \endgroup}
 \makeatother
 
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top 
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
 % table of contents customisation
 \renewcommand\cftchapterfont{\normalfont}
-\renewcommand{\cftchapterpagefont}{\normalfont}
+\renewcommand{\cftchapterpagefont}{\footnotesize}
 \renewcommand{\printtoctitle}{\centering\LARGE}
 
 
-
-%decrease spacing between chapter titles in to fit toc in 1 page
-\makeatletter
-\pretocmd{\chapter}{\addtocontents{toc}{\protect\addvspace{-9.5\p@}}}{}{}
-\makeatother
 
 % defining bitcoin symbol
 \def\bitcoinB{\leavevmode
@@ -152,15 +196,7 @@
   }%
 }
 
-% typographical settings for the body text
-\setlength{\parskip}{0.75em}
-\linespread{1.2}
-\setlength{\parindent}{0pt}
 
-% splitting
-\pretolerance=5000
-\tolerance=7500
-\emergencystretch=0pt
 
 % layout check and fix
 \checkandfixthelayout
@@ -168,8 +204,8 @@
 
 % BEGIN THE DOCUMENT
 \begin{document}
-\righthyphenmin=4
-\lefthyphenmin=5
+%\righthyphenmin=2
+%\lefthyphenmin=3
 \frontmatter
 
 % the title page
@@ -177,17 +213,19 @@
 \clearpage
 
 % copyright page
+\pagestyle{empty}
 \noindent \begin{center}
     \includegraphics[width=1cm]{images/copyright.png}
     \rule{\textwidth}{0.3mm}
 \end{center}
 \begin{footnotesize}
+\vfill
 \noindent \copyright\space 2021 Origineel: \textbf{Yan Pritzker}
 
 \vspace{1.8mm} %1.8mmm vertical space
 
 \noindent \copyright\space 2021 Vertaling: \textbf{Rutger Damink \& Dan Xi}
-\par\noindent {\scriptsize \thetitle : \subtitle}
+\par\noindent {\footnotesize \thetitle : \subtitle}
 \vspace{1.8mm} %1.8mmm vertical space
 
 \noindent Deze vertaling is officieel gelicenseerd van de originele copyright houder.
@@ -199,13 +237,7 @@
 \noindent Geef ons feedback: \texttt{\href{mailto:info@konsensus.network}{info@konsensus.network}}
 \vspace{1.8mm} %1.8mmm vertical space
 
-\noindent Uitgever: \href{https://konsensus.network}{\textit{Konsensus Network} - The Bitcoin Publishing House}
-\vspace{1.8mm} %1.8mmm vertical space
-
-\noindent Distributeur: \href{https://btcdirect.eu}{\textit{BTCDirect}}
-\vspace{1.8mm} %1.8mmm vertical space
-
-\noindent Drukpers: CB, Postbus 125, 4100 AC, Culemborg, Netherlands
+\noindent Uitgever: \href{https://konsensus.network}{\textit{Konsensus Network}}
 \vspace{1.8mm} %1.8mmm vertical space
 
 \noindent ISBN\space\ISBN\space (Softcover)
@@ -214,11 +246,10 @@
 \noindent Versie 1.0.0
 \vspace{1.8mm} %1.8mmm vertical space
 
-\noindent Ontwerp boekomslag \& zetwerk: \href{https://twitter.com/Konsensusn}{Konsensus Network} \\
+\noindent Ontwerp boekomslag \& zetwerk: \href{https://konsensus.network}{\textit{Konsensus Network}} \\
 \vspace{1.8mm} %1.8mmm vertical space
 
-\noindent 10 9 8 7 6 5 4 3 2 1
-\vfill
+%\vfill
 \noindent \href{https://konsensus.network}{\large\begin{scshape}\press \end{scshape} \includegraphics[width=0.5cm]{images/free starfish.pdf}} \space\texttt{\url{https://konsensus.network}}
 \end{footnotesize}
 \setcounter{footnote}{0}
@@ -235,12 +266,12 @@
 \tableofcontents*
 \clearpage
 
-
-\input{"./chapters/ch01.tex"} % Woord van de vertalers
+\pagestyle{mystyle}
+%\input{"./chapters/ch01.tex"} % Woord van de vertalers
 \input{"./chapters/ch02.tex"} % Inleiding
 
 \mainmatter
-\pagestyle{plain}
+\pagestyle{mystyle}
 
 \input{"./chapters/ch03.tex"} 
 \input{"./chapters/ch04.tex"} 

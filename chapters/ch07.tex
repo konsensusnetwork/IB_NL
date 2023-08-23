@@ -4,10 +4,11 @@ We hebben besproken hoe we erin slagen om kopieën bij te houden van, en te schr
 
 Maar wat gebeurt er wanneer een loterijwinnaar besluit om zich kwaadwillig op te stellen? Kan een miner historische boekingen in het grootboek aanpassen? Kunnen onze kwaadwillige actoren Eva, Davy en Femke samenspannen en de geschiedenis herschrijven of rekeningsaldi wijzigen en zichzelf meer munten toekennen?
 
-In dit deel gaan we de \textit{blockchain} bespreken. Eigenlijk is het louter een marketingterm die de technologiesector binnengedrongen is. In bitcoin worden blokken aan elkaar gehecht om een duidelijk link van de ene transactie naar de volgende te behouden. Een ketting van blokken, een \textit{blockchain}, dus. Hierdoor ontstaat een lineaire geschiedenis van creatie en uitgaven sinds Satoshi’s \textit{genesis block }in 2009 tot op vandaag.
+In dit deel gaan we de \textit{blockchain} bespreken. Eigenlijk is het louter een marketingterm die de technologiesector binnengedrongen is. In bitcoin worden blokken aan elkaar gehecht om een duidelijk link van de ene transactie naar de volgende te behouden. Een ketting van blokken, een \textit{blockchain}, dus. Hierdoor ontstaat een lineaire geschiedenis van creatie en uitgaven sinds Satoshi’s \textit{genesis block} in 2009 tot op vandaag.
 
-In het vorige deel hebben we een klein beetje gelogen om het eenvoudig te houden. Wanneer je meespeelt met de loterij (om te minen), is het niet enkel de wachtende transacties en een lukrake \textit{nonce} die je hasht. Je voegt daar ook nog een hash van het blok net daarvoer toe. Op die manier ontstaat een duidelijke link tussen jouw blok en het vorige.
+In het vorige deel hebben we een klein beetje gelogen om het eenvoudig te houden. Wanneer je meespeelt met de loterij, is het niet enkel de wachtende transacties en een lukrake \textit{nonce} die je hasht. Je voegt daar ook nog een hash van het blok net daarvoor toe. Op die manier ontstaat een duidelijke link tussen jouw blok en het vorige.
 
+\clearpage
 Herinner je dat de output van een hash-functie onvoorspelbaar is en afhankelijk is van alle inputdata die je gebruikt. De hashes van ons blok bevat nu drie verschillende inputs:
 
 \begin{enumerate}
@@ -19,7 +20,7 @@ Herinner je dat de output van een hash-functie onvoorspelbaar is en afhankelijk 
 
 
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{images/fig11.png}
     \caption{\footnotesize{\textit{De drie inputs die zijn gebruikt om een hash voor de loterij te bouwen, bevatten nu ook de vorige winnende hash, waardoor een link ontstaat van het ene blok naar het andere.}}}
@@ -40,9 +41,7 @@ Wanneer je een kopie van de \textit{blockchain} downloadt, is elke transactie in
 \section{Wanneer blokken botsen}
 Er ontbreekt nog een element in het consensus-systeem: hoe zorgen we dat iedereen met dezelfde lineaire geschiedenis van transacties werkt wanneer miners tegelijk twee blokken vinden en ze naar iedereen uitsturen?
 
-Stel je voor dat we nu een wereldwijd netwerk draaien. Mensen van over heel de wereld, van de VS tot China, zijn allemaal aangesloten bij dit globale netwerk en ze spelen allemaal mee met de proof-of-work mining loterij.
-
-Iemand in Chicago vindt een geldig blok. Ze deelt het resultaat met het netwerk en alle computers in de VS accepteren het. Tegelijk vindt iemand in Shanghai een paar seconden later ook een blok. De buren van die vinden hebben nog niets vernomen van het blok uit Chicago. Ze accepteren het Chinese voorstel.
+Stel je voor dat we nu een wereldwijd netwerk draaien. Mensen van over heel de wereld, van de VS tot China, zijn allemaal aangesloten bij dit globale netwerk en ze spelen allemaal mee met de proof-of-work mining loterij. Iemand in Chicago vindt een geldig blok. Ze deelt het resultaat met het netwerk en alle computers in de VS accepteren het. Tegelijk vindt iemand in Shanghai een paar seconden later ook een blok. De buren van die vinden hebben nog niets vernomen van het blok uit Chicago. Ze accepteren het Chinese voorstel.
 
 Beide blokken bevatten een transactie van 1 bitcoin van Alice naar Bob. Onmiddellijk na ontvangst stuurt Bob het bedrag opnieuw door naar Charles. Wegens het verschil in timing reflecteert het blok uit de VS deze situatie en Bob saldo van nul. Echter, de Chinese speler vond een oplossing en publiceerde een blok voordat Bob’s transactie naar Charles bekend was. Het blok uit China toont een saldo voor Bob van 1 bitcoin.
 
@@ -54,10 +53,10 @@ In de volgende tien minuten wordt opnieuw een blok gevonden. De code van bitcoin
 
 Stel dat een Chinese miner opnieuw een volgend blok wint. Hun ketting is nu één blok verder dan de Amerikaanse en bevat meer totale proof-of-work. Wanneer ze deze bevinding meedelen aan de rest van het netwerk, realiseren de spelers in de VS zich dat de Chinese \textit{nodes} een ketting geproduceerd hebben waar harder aan gewerkt is. Ze zien hun “foutje” onmiddellijk in en herorganiseren zich. Dit betekent dat zij hun laatste blok alsnog verwerpen en de twee blokken uit China opnemen in hun grootboek.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{images/fig12.png}
-    \caption{\footnotesize{\textit{Een kettingsplitsing is een natuurlijk proces dat optreedt wanneer miners tegelijkertijd een blok vinden tijd. De ketting die zwaarder wordt door totaal bewijs van werk is geldig, en de andere blok wordt wees.}}}
+    \caption{\footnotesize{\textit{Een kettingsplitsing is een natuurlijk proces dat optreedt wanneer miners tegelijkertijd een blok vinden. De ketting die zwaarder wordt door totaal bewijs van werk is geldig, en de andere blok wordt wees.}}}
     \label{fig12}
 \end{figure}
 
@@ -65,20 +64,18 @@ Stel dat een Chinese miner opnieuw een volgend blok wint. Hun ketting is nu éé
 
 Het blok uit de VS wordt nu een zogenaamd wees-blok (\textit{orphan block}). Aangezien het alsnog werd verworpen, gaat de beloning voor de vinden verloren en de transacties uit dat blok worden niet in het grootboek geregistreerd. De verworpen transacties zijn niet verloren. Sommige werden misschien ook opgenomen in het blok uit China en de rest kan uiteindelijk in een toekomstig blok alsnog in het grootboek geschreven worden.
 
-Alle onbevestigde transacties worden door miners lokaal bijgehouden op hun computer in een \textit{mempool}. Elke transactie uit een verworpen blok komt terug in de mempool terecht. Ze worden vervolgens door iemand anders in een blok geplaatst, zolang er geen conflict is met de nieuwe geschiedenis van het grootboek vastgelegd in het laatste blok.
+Alle onbevestigde transacties worden door miners lokaal bijgehouden op hun computer in een \textit{mempool}. Elke transactie uit een verworpen blok gaat terug in de mempool. Ze worden vervolgens door iemand anders in een blok geplaatst, zolang er geen conflict is met de nieuwe geschiedenis van het grootboek vastgelegd in het laatste blok.
 
 Hoewel we in dit voorbeeld naar de \textit{nodes} refereren als zijnde Amerikaans of Chinese, weten nodes in realiteit niets over elkaars identiteit of geografische locatie. Het enige bewijs van validiteit dat ze nodig hebben, is dat iemand de zwaarste, cumulatieve proof-of-work ketting heeft en dat de transacties in die ketting zelf allemaal geldig zijn (geen dubbele-uitgaven).
 
-Dit soort splitsingen van de ketting zijn vrij normaal en gebeuren af en toe in bitcoin. Doorgaans wordt opnieuw consensus bereikt in het volgend blok. Verbeteringen in technologie van bekendmaking van blokken en verhoogde netwerk-connectiviteit maken dit probleem mettertijd minder groot. Op vandaag, en hoogstwaarschijnlijk voor de nabije toekomst, heeft bitcoin een harde limiet op de hoeveelheid data dat toegelaten wordt in een blok. Een deel van de reden dat bitcoin, iedere tien minuten, relatief kleine blokken produceert, is om te verzekeren dat \textit{orphans} erg zeldzaam zijn.
+Dit soort splitsingen van de ketting zijn vrij normaal en gebeuren af en toe in bitcoin. Doorgaans wordt opnieuw consensus bereikt in het volgend blok. Verbeteringen in technologie van bekendmaking van blokken en verhoogde netwerk-connectiviteit maken dit probleem mettertijd minder groot. Op vandaag, en wellicht ook in de nabije toekomst, heeft bitcoin een harde limiet op de hoeveelheid data die toegelaten wordt in een blok. Een deel van de reden dat bitcoin, elke tien minuten, relatief kleine blokken produceert, is om te verzekeren dat \textit{orphans} erg zeldzaam zijn.
 
 Minen is een spel van kansen. Soms liggen blokken tien minuten uiteen, maar andere keren slechts enkele seconden. Indien we om de paar seconden blokken zouden produceren, of indien we erg grootte blokken zouden hebben, zou de kans groter zijn dat Amerikaanse en Chinese blokken conflicteren. Ze liggen ver uiteen en het duurt langer om elkaar te bereiken. Als \textit{orphans} te veel voorkomen, zou de ketting ontrafelen. We zouden \textit{orphan na orphan} zien verschijnen en \textit{nodes} zouden de tijd niet hebben om uit te maken welke nu het laatste, juiste blok is.
 
 Het is belangrijk om blokken klein te houden om de kans te vergroten dat het hele netwerk de laatste blok kan ontvangen vooraleer te beginnen aan een volgende loterij. De andere, wellicht belangrijkste reden, is dat kleine blokken ook de vereisten qua hardware voor het draaien van een \textit{node} relatief laag houden. Zo blijft het de moeite om aan te sluiten bij het netwerk en blijft mining meer verspreidt over tijd. Grote blokken zouden miners aanzetten om zich te vestigen in \textit{datacenters} in gekende geografische locaties om splitsingen, die slecht zijn voor hun rendabiliteit, te vermijden
 
 \section{De enige, echte ketting}
-Laten we terugkeren naar ons voorbeeld uit hoofdstuk 3 waarin Henri voor het eerst aansluit bij het bitcoin netwerk.
-
-De \textit{node} van Henri zal een connectie maken met enkele andere \textit{nodes} op het netwerk. Vervolgens vraagt hij die om nog andere \textit{nodes} die zij kennen en maakt ook daar verbinding mee. Dit heet \textit{node discovery}.
+Laten we terugkeren naar ons voorbeeld uit hoofdstuk 3 waarin Henri voor het eerst aansluit bij het bitcoin netwerk. De \textit{node} van Henri zal een connectie maken met enkele andere \textit{nodes} op het netwerk. Vervolgens vraagt hij die om nog andere \textit{nodes} die zij kennen en maakt ook daar verbinding mee. Dit heet \textit{node discovery}.
 
 Sommige van die \textit{nodes} zullen slechte bedoelingen hebben en valse kopieën van het grootboek bezorgen. Ze kunnen bijvoorbeeld ongeldige handtekeningen voor transacties bevatten, of vervalste en oneerlijk ontgonnen bitcoin die geen geldige proof-of-work hashes hebben. Al die versies zullen onmiddellijk verworpen worden en de afzenders worden door de node van Henri verbannen.
 
@@ -91,16 +88,17 @@ Zelfs als Henri met verschillende verouderde of kwaadaardige nodes en slechts 1 
 Het is daarom uiterst moeilijk voor hackers om een \textit{node} een valse kopie van de ketting te bezorgen. Om dat te doen zou je alle eerlijke connecties moeten kunnen uitsluiten en het doelwit enkel laten verbinding maken met je eigen, kwaadaardige \textit{nodes}.
 
 \section{Omkeerbaarheid van transacties}
-Doorgaans ontstaan concurrerende versies van het grootboek per toeval en wordt snel uitgeklaard welke de juiste versie is. Maar iemand die het netwerk wil aanvallen kan gebruik maken van Nakamoto Consensus door meer dan 50\% van de totale \textit{hash-rate} te beheren. Op die manier kunnen ze de zwaarste, cumulatieve proof-of-work ketting produceren. Die versie van het grootboek zal transacties bevatten die de aanvaller kiest, zolang ze genoeg energie willen verbruiken om de aanval door te zetten. Wanneer ze deze ketting bekendmaken aan het netwerk, zouden andere \textit{nodes} hem accepteren als zijnde de echte. Die heet een 51\%-aanval, omdat je meer dan de helft van alle rekenkracht op het netwerk nodig hebt om de aanval succesvol uit te voeren.
+Doorgaans ontstaan concurrerende versies van het grootboek per toeval en wordt snel duidelijk welke de juiste versie is. Maar iemand die het netwerk wil aanvallen kan gebruik maken van Nakamoto Consensus door meer dan 50\% van de totale \textit{hash-rate} te controleren. Op die manier kunnen ze de zwaarste, cumulatieve proof-of-work ketting produceren. Die versie van het grootboek zal transacties bevatten die de aanvaller kiest, zolang ze genoeg energie willen verbruiken om de aanval door te zetten. Wanneer ze deze ketting bekendmaken aan het netwerk, zouden andere \textit{nodes} hem aanzien als echt. Dit heet een 51\%-aanval, omdat je meer dan de helft van alle rekenkracht op het netwerk nodig hebt om de aanval succesvol uit te voeren.
 
-Het is belangrijk om te begrijpen dat er geen echte finaliteit van transacties is in bitcoin, aangezien 51\%-aanvallen of \textit{orphan blocks} altijd tot de mogelijkheid behoren. Ontvangers van transacties wachten typisch tot enkele blokken boven op hun transactie werd gemined. Wanneer de hoeveelheid energie die nodig zou zijn om de ketting te herschrijven hoog genoeg is, wordt het erg onwaarschijnlijk dat de transactie ongedaan wordt gemaakt en beschouwen de deze transfer als finaal.
+Het is belangrijk om te begrijpen dat er geen echte finaliteit van transacties is in bitcoin, aangezien 51\%-aanvallen of \textit{orphan blocks} altijd tot de mogelijkheid behoren. Ontvangers van transacties wachten typisch tot enkele blokken boven op hun transactie werd gemined. Wanneer de hoeveelheid energie die nodig zou zijn om de ketting te herschrijven hoog genoeg is, wordt het erg onwaarschijnlijk dat de transactie ongedaan wordt gemaakt en beschouwen we deze transfer als finaal.
 
 Blokken die ontgonnen worden boven op een blok waar onze transactie in zit, noemen we doorgaans \textit{confirmaties}. Dus wanneer iemand zegt dat een bitcointransactie 6 confirmaties heeft, wordt bedoeld dat er 6 blokken gepasseerd zijn sinds de transactie in het grootboek zit. Wanneer je als handelaar een digitaal product verkoopt met geringe marginale kosten, kan het voldoende zijn met slechts 1 confirmatie of zelfs zonder confirmaties. Je stuurt de download link zodra de transactie aangekondigd werd op het netwerk. Wanneer je een huis verkoop, kan het misschien meer aangewezen zijn om te wachten op 12 confirmaties. Dat kost gemiddeld zo’n twee uur aan mining. Hoe langer je wacht, hoe meer proof-of-work boven op het blok met jouw transactie komt. Het wordt veel duurder om de transactie om te keren. Vandaag accepteren de meeste mensen een transactie met 6 confirmaties.
 
-Moest de \textit{hash-rate} van bitcoin in belangrijke mate dalen, wat betekent dat minder energie ieder blok beveiligd, dan kan je altijd het aantal confirmaties verhogen vereist voor een “finale afwikkeling”. Hoewel de niet-finaliteit van transacties op het eerste zicht verontrustend lijkt, is het belangrijk om in het achterhoofd te houden dat transacties met kredietkaarten tot wel 120 dagen later kunnen worden teruggedraaid.
+Moest de \textit{hash-rate} van bitcoin sterk dalen, wat betekent ieder blok door minder energie beveiligd is, dan kan je altijd het aantal vereiste confirmaties voor een “finale afwikkeling” verhogen. Hoewel de niet-finaliteit van transacties op het eerste zicht verontrustend lijkt, is het belangrijk om in het achterhoofd te houden dat transacties met kredietkaarten tot wel 120 dagen later kunnen worden teruggedraaid.
 
-Aan de andere kant, zijn bitcointransacties na een paar blokken zo goed als onomkeerbaar. Vanuit dit oogpunt, is de omkeerbaarheid en finaliteit van bitcoin een ontzettende verbetering met de meeste traditionele betalingsnetwerken, althans voor de handelaar.
+Aan de andere kant, zijn bitcointransacties na een paar blokken zo goed als onomkeerbaar. Vanuit het oogpunt van de handelaar, is de omkeerbaarheid en finaliteit van bitcoin een ontzettende verbetering in vergelijking met de meeste traditionele betalingsnetwerken.
 
-Op vandaag wordt geschat dat iemand met de energie van het volledige bitcoin netwerk ter beschikking – een serieuze uitdaging, aangezien je toegang tot de energie van een klein land én alle gespecialiseerde hardware moet hebben – nog altijd meer dan een jaar zou nodig hebben om de volledige geschiedenis van de \textit{chain} te herschrijven. Je kan deze data bekijken op \href{ https://bitcoin.sipa.be/}{ https://bitcoin.sipa.be/}
+Vandaag wordt geschat dat iemand met de energie van het volledige bitcoin netwerk ter beschikking -- een serieuze uitdaging, aangezien je toegang tot de energie van een klein land én alle gespecialiseerde hardware moet hebben -- nog altijd meer dan een jaar zou nodig hebben om de volledige geschiedenis van de \textit{chain} te herschrijven. Je kan deze data bekijken op \href{ https://bitcoin.sipa.be/}{https://bitcoin.sipa.be/}
 
+\vfill
 Footnote: dit interessante artikel gaat dieper in op ongeldige blokken in bitcoin: \href{ https://hackernoon.com/bitcoin-miners-beware-invalid-blocks-need-not-apply-51c293ee278b }{ https://hackernoon.com/bitcoin-miners-beware-invalid-blocks-need-not-apply-51c293ee278b }
